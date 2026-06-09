@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('driver_files', function (Blueprint $table) {
+        Schema::create('countries', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('cargo_request_id')->constrained('cargo_requests')->cascadeOnDelete();
-            $table->string('type');
             $table->string('name');
-            $table->string('path');
             $table->timestamps();
         });
     }
@@ -26,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('driver_files');
+        Schema::dropIfExists('countries');
     }
 };

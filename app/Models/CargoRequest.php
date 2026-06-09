@@ -4,18 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TelegramUser extends Model
+class CargoRequest extends Model
 {
-    protected $table = 'telegram_users';
+    protected $table = 'cargo_requests';
 
     protected $fillable = [
-        'telegram_id',
-        'state',
         'driver_id',
         'from_country_id',
         'from_city_id',
         'to_country_id',
         'to_city_id',
-
+        'unloading_date',
+        'status',
     ];
+
+    public function driver()
+    {
+        return $this->belongsTo(Driver::class);
+    }
 }

@@ -16,6 +16,10 @@ return new class extends Migration
             $table->bigInteger('telegram_id')->unique();
             $table->string('state')->default('start');
             $table->foreignId('driver_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('from_country_id')->nullable()->constrained('countries')->nullOnDelete();
+            $table->foreignId('from_city_id')->nullable()->constrained('cities')->nullOnDelete();
+            $table->foreignId('to_country_id')->nullable()->constrained('countries')->nullOnDelete();
+            $table->foreignId('to_city_id')->nullable()->constrained('cities')->nullOnDelete();
             $table->timestamps();
         });
     }

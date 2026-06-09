@@ -9,7 +9,7 @@ class DriverFile extends Model
     protected $table = 'driver_files';
 
     protected $fillable = [
-        'driver_id',
+        'cargo_request_id',
         'type',
         'name',
         'path',

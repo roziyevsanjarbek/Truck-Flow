@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CargoRequest;
 use App\Models\Driver;
 use App\Models\DriverDocument;
 use App\Models\DriverFile;
-use App\Models\LotteryTicket;
+use App\Models\Country;
+use App\Models\City;
 use App\Models\TelegramUser;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Request;
@@ -73,13 +75,9 @@ class TelegramController extends Controller
 
             if ($driver) {
 
-                $telegramUser->update([
-                    'state' => 'completed'
-                ]);
-
                 $this->sendMessage(
                     $chatId,
-                    "📄 Yangi CMR faylini yuboring"
+                    "Siz allaqachon ro'yxatdan o'tgansiz."
                 );
 
                 return;
@@ -125,22 +123,60 @@ class TelegramController extends Controller
 
                 $telegramUser->update([
                     'driver_id' => $driver->id,
-                    'state' => 'full_name'
+                    'state' => 'last_name'
                 ]);
 
                 $this->sendMessage(
                     $chatId,
-                    "✍️ F.I.Sh ni to'liq kiriting.\n\nMasalan:\nRo'ziyev Sanjarbek Sobir o'g'li"
+                    "✍️ Familiyangizni kiriting\n\nMasalan: RO'ZIYEV"
                 );
 
                 break;
 
-            case 'full_name':
+            case 'last_name':
 
                 $driver = Driver::find($telegramUser->driver_id);
 
                 $driver->update([
-                    'full_name' => $text
+                    'last_name' => mb_strtoupper($text)
+                ]);
+
+                $telegramUser->update([
+                    'state' => 'first_name'
+                ]);
+
+                $this->sendMessage(
+                    $chatId,
+                    "✍️ Ismingizni kiriting\n\nMasalan: SANJARBEK"
+                );
+
+                break;
+
+            case 'first_name':
+
+                $driver = Driver::find($telegramUser->driver_id);
+
+                $driver->update([
+                    'first_name' => mb_strtoupper($text)
+                ]);
+
+                $telegramUser->update([
+                    'state' => 'middle_name'
+                ]);
+
+                $this->sendMessage(
+                    $chatId,
+                    "✍️ Sharifingizni kiriting\n\nMasalan: SOBIR O'G'LI"
+                );
+
+                break;
+
+            case 'middle_name':
+
+                $driver = Driver::find($telegramUser->driver_id);
+
+                $driver->update([
+                    'middle_name' => mb_strtoupper($text)
                 ]);
 
                 $telegramUser->update([
@@ -237,7 +273,91 @@ class TelegramController extends Controller
                 ]);
 
                 break;
-            case 'completed':
+
+            case 'car_volume':
+
+                $driver = Driver::find($telegramUser->driver_id);
+
+                $driver->update([
+                    'car_volume' => $text
+                ]);
+
+                $telegramUser->update([
+                    'state' => 'from_country'
+                ]);
+
+                $countries = Country::all();
+
+                $keyboard = [];
+
+                foreach ($countries->chunk(2) as $chunk) {
+
+                    $row = [];
+
+                    foreach ($chunk as $country) {
+                        $row[] = [
+                            'text' => $country->name,
+                            'callback_data' => 'from_country_'.$country->id
+                        ];
+                    }
+
+                    $keyboard[] = $row;
+                }
+                Http::post("{$this->apiUrl}/sendMessage", [
+                    'chat_id' => $chatId,
+                    'text' => '🌍 Yuk qayerdan olinmoqda? Davlatni tanlang',
+                    'reply_markup' => json_encode([
+                        'inline_keyboard' => $keyboard
+                    ])
+                ]);
+
+                break;
+
+
+            case 'unloading_date':
+
+                $date = str_replace(
+                    ['/', '.', ' '],
+                    '-',
+                    trim($text)
+                );
+
+                try {
+
+                    $date = \Carbon\Carbon::parse($date)
+                        ->format('Y-m-d');
+
+                } catch (\Exception $e) {
+
+                    $this->sendMessage(
+                        $chatId,
+                        "❌ Sanani to'g'ri kiriting.\n\nMisol: 2026-12-12"
+                    );
+
+                    return;
+                }
+
+                $cargoRequest = CargoRequest::query()
+                    ->where('driver_id', $telegramUser->driver_id)
+                    ->latest()
+                    ->first();
+
+                $cargoRequest->update([
+                    'unloading_date' => $date,
+                ]);
+
+                $telegramUser->update([
+                    'state' => 'cmr'
+                ]);
+
+                $this->sendMessage(
+                    $chatId,
+                    '📄 CMR rasmini yuboring'
+                );
+
+                break;
+
+            case 'cmr':
 
                 if (!isset($message['photo'])) {
                     return;
@@ -247,7 +367,6 @@ class TelegramController extends Controller
 
                 $fileId = $photo['file_id'];
 
-                // Telegramdan file ma'lumotini olish
                 $response = Http::get(
                     "{$this->apiUrl}/getFile",
                     [
@@ -257,7 +376,6 @@ class TelegramController extends Controller
 
                 $filePath = $response['result']['file_path'];
 
-                // Faylni yuklab olish
                 $fileContent = Http::get(
                     "https://api.telegram.org/file/bot{$this->token}/{$filePath}"
                 )->body();
@@ -271,28 +389,16 @@ class TelegramController extends Controller
                     $fileContent
                 );
 
-                $driverFile = DriverFile::create([
-                    'driver_id' => $telegramUser->driver_id,
-                    'type'      => 'cmr',
-                    'name'      => $fileName,
-                    'path'      => "cmr/{$fileName}",
-                ]);
+                $cargoRequest = CargoRequest::query()
+                    ->where('driver_id', $telegramUser->driver_id)
+                    ->latest()
+                    ->first();
 
-                // Ticket yaratish
-
-
-                $this->sendMessage(
-                    $chatId,
-                    "✅ CMR qabul qilindi.\n\nAdmin javobini kuting"
-                );
-
-                break;
-            case 'car_volume':
-
-                $driver = Driver::find($telegramUser->driver_id);
-
-                $driver->update([
-                    'car_volume' => $text
+                DriverFile::create([
+                    'cargo_request_id' => $cargoRequest->id,
+                    'type' => 'cmr',
+                    'name' => $fileName,
+                    'path' => "cmr/{$fileName}",
                 ]);
 
                 $telegramUser->update([
@@ -301,23 +407,7 @@ class TelegramController extends Controller
 
                 $this->sendMessage(
                     $chatId,
-                    '✅ Registratsiya tugadi. Endi CMR yuborishingiz mumkin.'
-                );
-
-                break;
-
-            case 'completed':
-
-                if (!isset($message['photo']) && !isset($message['document'])) {
-                    return;
-                }
-
-                // DriverFile yaratish
-                // LotteryTicket yaratish
-
-                $this->sendMessage(
-                    $chatId,
-                    '✅ Arizangiz qabul qilindi. Admin javobini kuting.'
+                    "✅ Arizangiz qabul qilindi.\n\nAdmin javobini kuting"
                 );
 
                 break;
@@ -355,7 +445,205 @@ class TelegramController extends Controller
                 '📦 Mashina kubaturasini kiriting'
             );
         }
+
+        if (str_starts_with($data, 'from_country_')) {
+
+            $countryId = str_replace('from_country_', '', $data);
+
+            $telegramUser->update([
+                'from_country_id' => $countryId,
+                'state' => 'from_city'
+            ]);
+
+            $cities = City::where('country_id', $countryId)->get();
+
+            $keyboard = [];
+
+            foreach ($cities as $city) {
+                $keyboard[] = [[
+                    'text' => $city->name,
+                    'callback_data' => 'from_city_'.$city->id
+                ]];
+            }
+            $keyboard[] = [[
+                'text' => '⬅️ Davlatlarga qaytish',
+                'callback_data' => 'back_to_from_country'
+            ]];
+
+
+            Http::post("{$this->apiUrl}/editMessageText", [
+                'chat_id' => $chatId,
+                'message_id' => $messageId,
+                'text' => '🏙 Yuk olinadigan shaharni tanlang',
+                'reply_markup' => json_encode([
+                    'inline_keyboard' => $keyboard
+                ])
+            ]);
+
+            return;
+        }
+
+        if (str_starts_with($data, 'from_city_')) {
+
+            $cityId = str_replace('from_city_', '', $data);
+
+            $telegramUser->update([
+                'from_city_id' => $cityId,
+                'state' => 'to_country'
+            ]);
+
+            $countries = Country::all();
+
+            $keyboard = [];
+
+            foreach ($countries as $country) {
+                $keyboard[] = [[
+                    'text' => $country->name,
+                    'callback_data' => 'to_country_'.$country->id
+                ]];
+            }
+
+
+            Http::post("{$this->apiUrl}/editMessageText", [
+                'chat_id' => $chatId,
+                'message_id' => $messageId,
+                'text' => '🌍 Yuk qayerga olib boriladi? Davlatni tanlang',
+                'reply_markup' => json_encode([
+                    'inline_keyboard' => $keyboard
+                ])
+            ]);
+
+            return;
+        }
+
+        if (str_starts_with($data, 'to_country_')) {
+
+            $countryId = str_replace('to_country_', '', $data);
+
+            $telegramUser->update([
+                'to_country_id' => $countryId,
+                'state' => 'to_city'
+            ]);
+
+            $cities = City::where('country_id', $countryId)->get();
+
+            $keyboard = [];
+
+            foreach ($cities as $city) {
+                $keyboard[] = [[
+                    'text' => $city->name,
+                    'callback_data' => 'to_city_'.$city->id
+                ]];
+            }
+
+            $keyboard[] = [[
+                'text' => '⬅️ Davlatlarga qaytish',
+                'callback_data' => 'back_to_to_country'
+            ]];
+
+            Http::post("{$this->apiUrl}/editMessageText", [
+                'chat_id' => $chatId,
+                'message_id' => $messageId,
+                'text' => '🏙 Yetkazib beriladigan shaharni tanlang',
+                'reply_markup' => json_encode([
+                    'inline_keyboard' => $keyboard
+                ])
+            ]);
+
+            return;
+        }
+
+        if (str_starts_with($data, 'to_city_')) {
+
+            $cityId = str_replace('to_city_', '', $data);
+
+            CargoRequest::create([
+                'driver_id' => $telegramUser->driver_id,
+
+                'from_country_id' => $telegramUser->from_country_id,
+                'from_city_id' => $telegramUser->from_city_id,
+
+                'to_country_id' => $telegramUser->to_country_id,
+                'to_city_id' => $cityId,
+            ]);
+
+            $telegramUser->update([
+                'state' => 'unloading_date'
+            ]);
+
+            $this->editMessageText(
+                $chatId,
+                $messageId,
+                '📅 Yuk tushirish sanasini kiriting (2026-12-10)'
+            );
+
+            return;
+        }
+
+        if ($data === 'back_to_from_country') {
+
+            $countries = Country::query()->get();
+
+            $keyboard = [];
+
+            foreach ($countries->chunk(2) as $chunk) {
+
+                $row = [];
+
+                foreach ($chunk as $country) {
+                    $row[] = [
+                        'text' => $country->name,
+                        'callback_data' => 'from_country_'.$country->id
+                    ];
+                }
+
+                $keyboard[] = $row;
+            }
+
+            Http::post("{$this->apiUrl}/editMessageText", [
+                'chat_id' => $chatId,
+                'message_id' => $messageId,
+                'text' => '🌍 Yuk qayerdan olinmoqda? Davlatni tanlang',
+                'reply_markup' => json_encode([
+                    'inline_keyboard' => $keyboard
+                ])
+            ]);
+
+            return;
+        }
+
+        if ($data === 'back_to_to_country') {
+
+            $countries = Country::query()->get();
+
+            $keyboard = [];
+
+            foreach ($countries->chunk(2) as $chunk) {
+                $row = [];
+
+                foreach ($chunk as $country) {
+                    $row[] = [
+                        'text' => $country->name,
+                        'callback_data' => 'to_country_'.$country->id
+                    ];
+                }
+
+                $keyboard[] = $row;
+            }
+
+            Http::post("{$this->apiUrl}/editMessageText", [
+                'chat_id' => $chatId,
+                'message_id' => $messageId,
+                'text' => '🌍 Yuk qayerga olib boriladi? Davlatni tanlang',
+                'reply_markup' => json_encode([
+                    'inline_keyboard' => $keyboard
+                ])
+            ]);
+
+            return;
+        }
     }
+
 
     /**
      * @throws ConnectionException
@@ -379,3 +667,4 @@ class TelegramController extends Controller
     }
 
 }
+
