@@ -224,6 +224,10 @@ class TelegramController extends Controller
                     $fileContent
                 );
 
+                \Log::info(Storage::disk('public')->exists("document/{$fileName}"));
+
+                \Log::info(Storage::disk('public')->path("document/{$fileName}"));
+
                 DriverDocument::create([
                     'driver_id' => $telegramUser->driver_id,
                     'type'      => 'passport',

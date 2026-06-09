@@ -52,7 +52,7 @@
                             <th>Actions</th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="cargoRequestsTableBody">
                         <!-- Row 1 -->
                         <tr>
                             <td>Sanjar Roziyev</td>
@@ -91,82 +91,6 @@
                                 </div>
                             </td>
                         </tr>
-                        <!-- Row 2 -->
-                        <tr>
-                            <td>Akmal Karimov</td>
-                            <td>+998 90 123 45 67</td>
-                            <td>Samarkand</td>
-                            <td>Almaty</td>
-                            <td>2026-06-18</td>
-                            <td>
-                                <span class="status-badge status-in-transit">In Transit</span>
-                            </td>
-                            <td>
-                                <div class="cmr-image" onclick="openModal('AK')">
-                                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                                    </svg>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="table-actions">
-                                    <button class="btn-icon-only" title="View">
-                                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                                        </svg>
-                                    </button>
-                                    <button class="btn-icon-only" title="Edit">
-                                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                        </svg>
-                                    </button>
-                                    <button class="btn-icon-only" title="Delete" style="color: #dc2626;">
-                                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <!-- Row 3 -->
-                        <tr>
-                            <td>Javohir Xasanov</td>
-                            <td>+998 91 777 88 99</td>
-                            <td>Bukhara</td>
-                            <td>Warsaw</td>
-                            <td>2026-06-20</td>
-                            <td>
-                                <span class="status-badge status-delivered">Delivered</span>
-                            </td>
-                            <td>
-                                <div class="cmr-image" onclick="openModal('JX')">
-                                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                                    </svg>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="table-actions">
-                                    <button class="btn-icon-only" title="View">
-                                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                                        </svg>
-                                    </button>
-                                    <button class="btn-icon-only" title="Edit">
-                                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                        </svg>
-                                    </button>
-                                    <button class="btn-icon-only" title="Delete" style="color: #dc2626;">
-                                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -174,6 +98,12 @@
         </div>
     </main>
 </div>
+<div id="imageViewer" class="image-viewer">
+    <button class="image-close">&times;</button>
+
+    <img id="viewerImage" src="" alt="Passport">
+</div>
+
 
 <!-- Image Preview Modal -->
 <div class="modal" id="imageModal">
@@ -227,6 +157,149 @@
             closeModal();
         }
     });
+
+    async function loadCargoRequests() {
+        try {
+
+            const response = await fetch('/api/drivers/cargo-requests', {
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+
+            const result = await response.json();
+
+            const tbody = document.getElementById('cargoRequestsTableBody');
+
+            tbody.innerHTML = '';
+
+            result.data.forEach(item => {
+
+                const cmr = item.files.find(
+                    file => file.type === 'cmr'
+                );
+
+                const cmrImage = cmr
+                    ? `/storage/${cmr.path}`
+                    : '';
+
+                const statusClass = {
+                    pending: 'status-pending',
+                    active: 'status-in-transit',
+                    delivered: 'status-delivered'
+                };
+
+                tbody.insertAdjacentHTML('beforeend', `
+                <tr>
+
+                    <td>
+                        ${item.driver?.last_name ?? ''}
+                        ${item.driver?.first_name ?? ''}
+                        ${item.driver?.middle_name ?? ''}
+                    </td>
+
+                    <td>
+                        ${item.driver?.phone_number ?? '-'}
+                    </td>
+
+                    <td>
+                        ${item.from_country?.name ?? '-'},
+                        ${item.from_city?.name ?? '-'}
+                    </td>
+
+                    <td>
+                        ${item.to_country?.name ?? '-'},
+                        ${item.to_city?.name ?? '-'}
+                    </td>
+
+                    <td>
+                        ${item.unloading_date ?? '-'}
+                    </td>
+
+                    <td>
+                        <span class="status-badge ${statusClass[item.status] ?? 'status-pending'}">
+                            ${item.status}
+                        </span>
+                    </td>
+
+                    <td>
+                        ${
+                    cmr
+                        ? `
+                                <button
+                                    class="document-btn"
+                                    data-image="${cmrImage}">
+                                    📄 CMR
+                                </button>
+                              `
+                        : '-'
+                }
+                    </td>
+
+                    <td>
+                        <div class="table-actions">
+
+                            <button
+                                class="btn-approve"
+                                data-id="${item.id}">
+                                ✓ Approve
+                            </button>
+
+                            <button
+                                class="btn-reject"
+                                data-id="${item.id}">
+                                ✕ Reject
+                            </button>
+
+                        </div>
+                    </td>
+
+                </tr>
+            `);
+            });
+
+        } catch (error) {
+
+            console.error(error);
+
+            document.getElementById('cargoRequestsTableBody').innerHTML = `
+            <tr>
+                <td colspan="8" style="text-align:center">
+                    Cargo requestlarni yuklashda xatolik yuz berdi
+                </td>
+            </tr>
+        `;
+        }
+    }
+
+    loadCargoRequests();
+
+    document.addEventListener('click', function(e){
+
+        const btn = e.target.closest('.document-btn');
+
+        if(!btn) return;
+
+        document.getElementById('viewerImage').src =
+            btn.dataset.image;
+
+        document.getElementById('imageViewer')
+            .classList.add('show');
+    });
+    document.querySelector('.image-close')
+        .addEventListener('click', () => {
+
+            document.getElementById('imageViewer')
+                .classList.remove('show');
+        });
+
+    document.getElementById('imageViewer')
+        .addEventListener('click', function(e){
+
+            if(e.target.id === 'imageViewer'){
+                this.classList.remove('show');
+            }
+        });
 </script>
 </body>
 </html>

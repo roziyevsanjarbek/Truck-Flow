@@ -567,3 +567,196 @@ td {
     background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
     color: var(--color-white);
 }
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.5);
+    z-index:9999;
+    justify-content:center;
+    align-items:center;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-content{
+    background:#fff;
+    width:500px;
+    max-width:95%;
+    border-radius:16px;
+    padding:24px;
+    position:relative;
+}
+
+.close-modal{
+    position:absolute;
+    right:20px;
+    top:15px;
+    font-size:28px;
+    cursor:pointer;
+}
+
+.passport-preview{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.passport-preview img{
+    width:250px;
+    max-width:100%;
+    border-radius:12px;
+    border:1px solid #e5e7eb;
+}
+
+.detail-item{
+    margin-bottom:12px;
+}
+
+.detail-item strong{
+    display:inline-block;
+    width:130px;
+}
+.document-btn{
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    padding:10px 16px;
+
+    border:1px solid #dbeafe;
+    background:#eff6ff;
+
+    color:#2563eb;
+    border-radius:12px;
+
+    cursor:pointer;
+    transition:.2s;
+    font-weight:600;
+}
+
+.document-btn:hover{
+    background:#dbeafe;
+    transform:translateY(-1px);
+}
+.document-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+
+    padding:8px 14px;
+
+    border:1px solid #dbeafe;
+    background:#eff6ff;
+
+    color:#2563eb;
+    border-radius:10px;
+
+    text-decoration:none;
+    font-size:14px;
+    font-weight:600;
+
+    transition:all .2s ease;
+}
+
+.document-btn:hover{
+    background:#dbeafe;
+    border-color:#93c5fd;
+    transform:translateY(-1px);
+}
+.image-viewer{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.9);
+    z-index:99999;
+
+    justify-content:center;
+    align-items:center;
+}
+
+.image-viewer.show{
+    display:flex;
+}
+
+.image-viewer img{
+    max-width:90%;
+    max-height:90%;
+    border-radius:12px;
+}
+
+.image-close{
+    position:absolute;
+    top:20px;
+    right:30px;
+
+    background:none;
+    border:none;
+
+    color:#fff;
+    font-size:40px;
+    cursor:pointer;
+}
+.delete-modal{
+    max-width:400px;
+    text-align:center;
+}
+
+.delete-actions{
+    margin-top:20px;
+    display:flex;
+    justify-content:center;
+    gap:12px;
+}
+
+.btn-cancel{
+    padding:10px 20px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    background:#e5e7eb;
+}
+
+.btn-delete{
+    padding:10px 20px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    background:#dc2626;
+    color:white;
+}
+.table-actions{
+    display:flex;
+    gap:8px;
+}
+
+.btn-approve{
+    border:none;
+    background:#16a34a;
+    color:white;
+    padding:8px 12px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:13px;
+    font-weight:500;
+}
+
+.btn-approve:hover{
+    background:#15803d;
+}
+
+.btn-reject{
+    border:none;
+    background:#dc2626;
+    color:white;
+    padding:8px 12px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:13px;
+    font-weight:500;
+}
+
+.btn-reject:hover{
+    background:#b91c1c;
+}
