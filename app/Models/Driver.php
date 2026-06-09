@@ -91,4 +91,11 @@ class Driver extends Model
 
         return mb_strtoupper(trim($value));
     }
+
+    public function documents()
+    {
+        return $this->hasMany(DriverDocument::class);
+    }
+
+
 }
