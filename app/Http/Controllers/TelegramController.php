@@ -73,15 +73,6 @@ class TelegramController extends Controller
 
             $driver = Driver::query()->where('telegram_id', $chatId)->first();
 
-            if ($driver) {
-
-                $this->sendMessage(
-                    $chatId,
-                    "Siz allaqachon ro'yxatdan o'tgansiz."
-                );
-
-                return;
-            }
 
             $telegramUser->update([
                 'state' => 'phone'

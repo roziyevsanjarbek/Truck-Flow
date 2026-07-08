@@ -13,6 +13,6 @@ class HomeController extends Controller
 
     public function cargoRequest()
     {
-        return view('cargo-requests');
+        return view('cargo-request.index');
     }
 }

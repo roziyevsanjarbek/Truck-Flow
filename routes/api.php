@@ -17,3 +17,8 @@ Route::get('/drivers', [DriverController::class, 'index']);
 Route::delete('/drivers/{driverId}', [DriverController::class, 'destroy']);
 
 Route::get('/drivers/cargo-requests', [CargoRequestController::class, 'index']);
+Route::get('/drivers/cargo-requests/{id}/lottery-ticket', [CargoRequestController::class, 'getLotteryTicket']);
+Route::get('/drivers/cargo-requests', [CargoRequestController::class, 'search']);
+Route::get('/drivers/cargo-requests/statistics', [CargoRequestController::class, 'statistics']);
+Route::post('/drivers/cargo-requests/{cargoRequestId}/approve', [CargoRequestController::class, 'approve']);
+Route::post('/drivers/cargo-requests/{cargoRequestId}/reject', [CargoRequestController::class, 'reject']);

@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::create('lottery_tickets', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('driver_id')->constrained('drivers')->cascadeOnDelete();
-            $table->foreignId('driver_file_id')->constrained('driver_files')->cascadeOnDelete();
+            $table->foreignId('cargo_request_id')->constrained('cargo_requests')->cascadeOnDelete();
             $table->string('ticket_number');
             $table->enum('status', [
                 'active',
