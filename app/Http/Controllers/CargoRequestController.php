@@ -14,7 +14,7 @@ class CargoRequestController extends Controller
     protected string $apiUrl;
     public function __construct()
     {
-        $this->token = config('services.telegram.bot_token');
+        $this->token = '8905653221:AAFC1nCPi97AZBX_oycsoGXlT_xCxcg6FjE';
         $this->apiUrl = "https://api.telegram.org/bot{$this->token}";
     }
     public function index()
