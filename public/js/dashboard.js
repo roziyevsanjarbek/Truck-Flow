@@ -1,0 +1,3 @@
+requireAuth();
+
+loadStatistics().then(r => { });

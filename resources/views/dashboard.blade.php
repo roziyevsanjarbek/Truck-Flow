@@ -59,5 +59,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5/dist/fancybox/fancybox.umd.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{ asset('js/auth.js') }}"></script>
-<script src="{{ asset('js/cargo-request.js') }}"></script>
+<script src="{{ asset('js/cargo-requests/statistics.js') }}"></script>
+<script src="{{ asset('js/layout.js') }}"></script>
+<script src="{{ asset('js/dashboard.js') }}"></script>
 <x-footer></x-footer>

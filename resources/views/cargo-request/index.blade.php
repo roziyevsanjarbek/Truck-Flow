@@ -69,5 +69,13 @@
 <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5/dist/fancybox/fancybox.umd.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{ asset('js/auth.js') }}"></script>
-<script src="{{ asset('js/cargo-request.js') }}"></script>
+
+<script src="{{ asset('js/api.js') }}"></script>
+<script src="{{ asset('js/cargo-requests/table.js') }}"></script>
+<script src="{{ asset('js/cargo-requests/pagination.js') }}"></script>
+<script src="{{ asset('js/cargo-requests/actions.js') }}"></script>
+<script src="{{ asset('js/cargo-requests/filters.js') }}"></script>
+<script src="{{ asset('js/layout.js') }}"></script>
+
+<script src="{{ asset('js/cargo-requests/cargo-request.js') }}"></script>
 <x-footer></x-footer>
