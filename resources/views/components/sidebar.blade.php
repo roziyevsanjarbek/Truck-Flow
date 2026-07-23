@@ -79,6 +79,60 @@
 
                         </div>
 
+                        <a href="{{ route('approved-cargo-requests') }}"
+                           class="flex items-center justify-between px-4 py-3 rounded-xl font-medium
+                           {{ request()->routeIs('approved-cargo-requests')
+                                ? 'bg-green-50 text-green-600'
+                                : 'text-gray-600 hover:bg-gray-100' }}">
+
+                            <div class="flex items-center gap-3">
+
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     class="w-5 h-5"
+                                     fill="none"
+                                     viewBox="0 0 24 24"
+                                     stroke="currentColor">
+
+                                    <path stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="2"
+                                          d="M5 13l4 4L19 7"/>
+
+                                </svg>
+
+                                Approved Requests
+
+                            </div>
+
+                            <a href="{{ route('rejected-cargo-requests') }}"
+                               class="flex items-center justify-between px-4 py-3 rounded-xl font-medium
+                               {{ request()->routeIs('rejected-cargo-requests')
+                                    ? 'bg-red-50 text-red-600'
+                                    : 'text-gray-600 hover:bg-gray-100' }}">
+
+                                <div class="flex items-center gap-3">
+
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         class="w-5 h-5"
+                                         fill="none"
+                                         viewBox="0 0 24 24"
+                                         stroke="currentColor">
+
+                                        <path stroke-linecap="round"
+                                              stroke-linejoin="round"
+                                              stroke-width="2"
+                                              d="M6 18L18 6M6 6l12 12"/>
+
+                                    </svg>
+
+                                    Rejected Requests
+
+                                </div>
+
+                            </a>
+
+                        </a>
+
 
                     </a>
 

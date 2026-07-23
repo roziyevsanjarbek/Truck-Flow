@@ -42,5 +42,5 @@ Fancybox.bind("[data-fancybox]", {
 });
 
 
-loadCargoRequests().then(r => { });
+loadCargoRequests(1, currentFilters).then(r => { });
 

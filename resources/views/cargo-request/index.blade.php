@@ -66,6 +66,11 @@
     </div>
 </div>
 </div>
+<script>
+    const DEFAULT_FILTERS = {
+        status: 'pending'
+    };
+</script>
 <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5/dist/fancybox/fancybox.umd.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{ asset('js/auth.js') }}"></script>

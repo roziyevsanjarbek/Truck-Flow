@@ -1,5 +1,7 @@
 const API = "/api/drivers/cargo-requests";
-let currentFilters = {};
+let currentFilters = {
+    ...(typeof DEFAULT_FILTERS !== "undefined" ? DEFAULT_FILTERS : {})
+};
 let currentPage = 1;
 
 async function loadCargoRequests(page = 1, filters = {}) {
