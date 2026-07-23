@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -11,8 +10,18 @@ class HomeController extends Controller
         return view('drivers');
     }
 
+    public function dashboard()
+    {
+        return view('dashboard');
+    }
+
     public function cargoRequest()
     {
         return view('cargo-request.index');
+    }
+
+    public function login()
+    {
+        return view('login.login');
     }
 }

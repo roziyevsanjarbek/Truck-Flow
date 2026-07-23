@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CargoRequestController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\TelegramController;
@@ -12,13 +13,20 @@ Route::get('/user', function (Request $request) {
 
 Route::post('/telegram/webhook', [TelegramController::class, 'webhook']);
 
+Route::post('/login', [AuthController::class, 'login']);
 
-Route::get('/drivers', [DriverController::class, 'index']);
-Route::delete('/drivers/{driverId}', [DriverController::class, 'destroy']);
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
 
-Route::get('/drivers/cargo-requests', [CargoRequestController::class, 'index']);
-Route::get('/drivers/cargo-requests/{id}/lottery-ticket', [CargoRequestController::class, 'getLotteryTicket']);
-Route::get('/drivers/cargo-requests', [CargoRequestController::class, 'search']);
-Route::get('/drivers/cargo-requests/statistics', [CargoRequestController::class, 'statistics']);
-Route::post('/drivers/cargo-requests/{cargoRequestId}/approve', [CargoRequestController::class, 'approve']);
-Route::post('/drivers/cargo-requests/{cargoRequestId}/reject', [CargoRequestController::class, 'reject']);
+    Route::get('/drivers', [DriverController::class, 'index']);
+    Route::delete('/drivers/{driverId}', [DriverController::class, 'destroy']);
+
+
+    Route::get('/drivers/cargo-requests', [CargoRequestController::class, 'index']);
+    Route::get('/drivers/cargo-requests/{id}/lottery-ticket', [CargoRequestController::class, 'getLotteryTicket']);
+    Route::get('/drivers/cargo-requests', [CargoRequestController::class, 'search']);
+    Route::get('/drivers/cargo-requests/statistics', [CargoRequestController::class, 'statistics']);
+    Route::post('/drivers/cargo-requests/{cargoRequestId}/approve', [CargoRequestController::class, 'approve']);
+    Route::post('/drivers/cargo-requests/{cargoRequestId}/reject', [CargoRequestController::class, 'reject']);
+
+});

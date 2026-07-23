@@ -274,6 +274,9 @@
 
     loadCargoRequests();
 
+    requireAuth();
+
+    const user = getUser();
     document.addEventListener('click', function(e){
 
         const btn = e.target.closest('.document-btn');

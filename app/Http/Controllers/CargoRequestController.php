@@ -19,6 +19,12 @@ class CargoRequestController extends Controller
     }
     public function index()
     {
+        $user = auth()->user();
+        if(!$user) {
+            return response()->json([
+                'message' => 'User not found'
+            ], 404);
+        }
         $cargoRequest = CargoRequest::with([
             'driver.documents',
             'fromCountry',
@@ -40,6 +46,12 @@ class CargoRequestController extends Controller
 
     public function approve($id)
     {
+        $user = auth()->user();
+        if(!$user) {
+            return response()->json([
+                'message' => 'User not found'
+            ], 404);
+        }
         $cargoRequest = CargoRequest::query()
             ->with('driver')
             ->where('status', 'pending')
@@ -85,6 +97,12 @@ class CargoRequestController extends Controller
 
     public function reject($id)
     {
+        $user = auth()->user();
+        if(!$user) {
+            return response()->json([
+                'message' => 'User not found'
+            ], 404);
+        }
         $cargoRequest = CargoRequest::query()
             ->with('driver')
             ->where('status', 'pending')
@@ -119,6 +137,12 @@ class CargoRequestController extends Controller
 
     public function search(Request $request)
     {
+        $user = auth()->user();
+        if(!$user) {
+            return response()->json([
+                'message' => 'User not found'
+            ], 404);
+        }
         $query = CargoRequest::query()
             ->with([
                 'driver.documents',
@@ -189,6 +213,12 @@ class CargoRequestController extends Controller
 
     public function statistics()
     {
+        $user = auth()->user();
+        if(!$user) {
+            return response()->json([
+                'message' => 'User not found'
+            ], 404);
+        }
         $cargoRequest = CargoRequest::query()
             ->selectRaw('count(*) as total, status')
             ->groupBy('status')
