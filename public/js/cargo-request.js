@@ -601,6 +601,7 @@ document.querySelectorAll('.user-avatar').forEach(el => {
 const menuBtn = document.getElementById("userMenuBtn");
 const dropdown = document.getElementById("userDropdown");
 
+
 menuBtn.addEventListener("click", function (e) {
     e.stopPropagation();
     dropdown.classList.toggle("hidden");
