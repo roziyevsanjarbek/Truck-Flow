@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\CargoRequest;
 use App\Models\LotteryTicket;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 
 class CargoRequestController extends Controller
@@ -207,6 +209,75 @@ class CargoRequestController extends Controller
         return response()->json([
             'message' => 'success',
             'data' => $query->latest()->paginate(10),
+        ]);
+    }
+
+    public function statisticsDashboard()
+    {
+        $startDate = Carbon::today()->subDays(6)->startOfDay();
+        $endDate = Carbon::today()->endOfDay();
+
+        // 7 kunlik statistika
+        $dailyStats = CargoRequest::selectRaw("
+            DATE(created_at) as date,
+            status,
+            COUNT(*) as total
+        ")
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->groupBy(DB::raw('DATE(created_at)'), 'status')
+            ->orderBy('date')
+            ->get();
+
+        // Umumiy status statistikasi
+        $statusStats = CargoRequest::selectRaw("
+            status,
+            COUNT(*) as total
+        ")
+            ->groupBy('status')
+            ->pluck('total', 'status');
+
+        $labels = [];
+        $pending = [];
+        $approved = [];
+        $rejected = [];
+        $total = [];
+
+        for ($i = 6; $i >= 0; $i--) {
+
+            $date = Carbon::today()->subDays($i)->format('Y-m-d');
+
+            $labels[] = Carbon::parse($date)->format('M d');
+
+            $day = $dailyStats->where('date', $date);
+
+            $pendingCount = optional($day->firstWhere('status', 'pending'))->total ?? 0;
+            $approvedCount = optional($day->firstWhere('status', 'approved'))->total ?? 0;
+            $rejectedCount = optional($day->firstWhere('status', 'rejected'))->total ?? 0;
+
+            $pending[] = $pendingCount;
+            $approved[] = $approvedCount;
+            $rejected[] = $rejectedCount;
+            $total[] = $pendingCount + $approvedCount + $rejectedCount;
+        }
+
+        return response()->json([
+
+            'labels' => $labels,
+
+            'lineChart' => [
+                'pending' => $pending,
+                'approved' => $approved,
+                'rejected' => $rejected,
+                'total' => $total,
+            ],
+
+            'pieChart' => [
+                'pending' => $statusStats['pending'] ?? 0,
+                'approved' => $statusStats['approved'] ?? 0,
+                'rejected' => $statusStats['rejected'] ?? 0,
+                'total' => array_sum($statusStats->toArray()),
+            ],
+
         ]);
     }
 

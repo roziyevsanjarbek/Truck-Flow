@@ -51,15 +51,24 @@
 
                 <x-cargo-request.statistik-section></x-cargo-request.statistik-section>
 
+                <!-- ========================= -->
+                <!-- OVERVIEW -->
+                <!-- ========================= -->
+
+                <x-cargo-request.overview-section></x-cargo-request.overview-section>
+
             </main>
 
         </div>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5/dist/fancybox/fancybox.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{ asset('js/auth.js') }}"></script>
 <script src="{{ asset('js/cargo-requests/statistics.js') }}"></script>
 <script src="{{ asset('js/layout.js') }}"></script>
-<script src="{{ asset('js/dashboard.js') }}"></script>
+<script src="{{ asset('js/cargo-requests/dashboard/dashboard.js') }}"></script>
+<script src="{{ asset('js/cargo-requests/dashboard/overview.js') }}"></script>
 <x-footer></x-footer>

@@ -26,6 +26,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/drivers/cargo-requests/{id}/lottery-ticket', [CargoRequestController::class, 'getLotteryTicket']);
     Route::get('/drivers/cargo-requests', [CargoRequestController::class, 'search']);
     Route::get('/drivers/cargo-requests/statistics', [CargoRequestController::class, 'statistics']);
+    Route::get('/dashboard/statistics', [CargoRequestController::class, 'statisticsDashboard']);
     Route::post('/drivers/cargo-requests/{cargoRequestId}/approve', [CargoRequestController::class, 'approve']);
     Route::post('/drivers/cargo-requests/{cargoRequestId}/reject', [CargoRequestController::class, 'reject']);
 
